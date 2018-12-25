@@ -18,7 +18,7 @@ export default class LogIn extends Component {
       <View style={{flex: 1, backgroundColor: '#00444c'}}>
         <View style={{width: DEVICE_WIDTH, height: 24}}/>
         <View style={styles.titleView}>
-          <Text style={{fontSize: 40, color: 'white'}}>React Native App</Text>
+          <Text style={{fontSize: 40, color: 'white'}}>React-Native-App</Text>
         </View>
         <View style={styles.inputText}>
           <Image source={require('./android/app/src/main/assets/UserID.png')}
@@ -39,7 +39,7 @@ export default class LogIn extends Component {
             placeholder='Password' // place holder
           />
         </View>
-        <TouchableOpacity onPress={() => {Alert.alert('로그인 해주세요');}}  // custom button
+        <TouchableOpacity onPress={() => {Alert.alert('로그인 해주세요!');}}  // custom button
                          title="LOG IN"
                          style={styles.buttonStyle}>
           <Text style={styles.buttonText}>LOG IN</Text>
