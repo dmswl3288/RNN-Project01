@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import Dimensions from 'Dimensions';
+import {Navigation} from 'react-native-navigation';
 
 // 기기의 해상도 가져오기
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -11,6 +12,15 @@ export default class LogIn extends Component {
     super(props);
     // 초기 상태 저장
     this.state = { text: ''};
+  }
+  static get options(){
+    return{
+      topBar: {
+        title: {
+          text: 'Log In Screen'
+        },
+      }
+    };
   }
 
   render() {
@@ -39,9 +49,14 @@ export default class LogIn extends Component {
             placeholder='Password' // place holder
           />
         </View>
-        <TouchableOpacity onPress={() => {Alert.alert('로그인 해주세요!');}}  // custom button
-                         title="LOG IN"
-                         style={styles.buttonStyle}>
+        <TouchableOpacity onPress={() => {
+            Navigation.push('app', {
+                component: {
+                  name: 'hej.Completed',
+                }     
+            });
+          }}
+          style={styles.buttonStyle}>
           <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
       </View>
@@ -58,8 +73,8 @@ const styles = StyleSheet.create({
   titleView: {
     alignSelf: 'center',
     flexDirection: 'row',
-    marginTop: 90,
-    marginBottom: 90
+    marginTop: 70,
+    marginBottom: 70
   },
   inputText: { 
     alignItems:'center',
