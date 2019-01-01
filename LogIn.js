@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, 
+        View, TouchableOpacity, Image,
+        StatusBar, ScrollView } from 'react-native';
 import Dimensions from 'Dimensions';
 import {Navigation} from 'react-native-navigation';
 
@@ -17,18 +19,21 @@ export default class LogIn extends Component {
     return{
       topBar: {
         title: {
-          text: 'Log In Screen'
+          text: 'Log In Screen'   // Title 제목
         },
       }
     };
   }
 
   render() {
-    return (
-      <View style={{flex: 1, backgroundColor: '#00444c'}}>
+    return (     
+      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+       <StatusBar barStyle="light-content" hidden={false} backgroundColor="#6a0008"/>
+       <ScrollView>
         <View style={{width: DEVICE_WIDTH, height: 24}}/>
         <View style={styles.titleView}>
-          <Text style={{fontSize: 40, color: 'white'}}>React-Native-App</Text>
+          <Image source={require('./android/app/src/main/assets/secret.png')}
+                 style={styles.LogoStyle}/>
         </View>
         <View style={styles.inputText}>
           <Image source={require('./android/app/src/main/assets/UserID.png')}
@@ -49,16 +54,27 @@ export default class LogIn extends Component {
             placeholder='Password' // place holder
           />
         </View>
-        <TouchableOpacity onPress={() => {
-            Navigation.push('app', {
+        <TouchableOpacity onPress={() => {      // Log In
+            Navigation.push(this.props.componentId, {
                 component: {
-                  name: 'hej.Completed',
+                  name: 'Completed',
                 }     
             });
           }}
-          style={styles.buttonStyle}>
+          style={styles.LogInButtonStyle}>
           <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => {     // Sign up
+            Navigation.push(this.props.componentId, {
+                component: {
+                  name: 'SignUp',
+                }     
+            });
+          }}
+          style={styles.SignUpButtonStyle}>
+          <Text style={styles.buttonText}>SIGN UP</Text>
+        </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }
@@ -72,9 +88,9 @@ const styles = StyleSheet.create({
   },
   titleView: {
     alignSelf: 'center',
-    flexDirection: 'row',
-    marginTop: 70,
-    marginBottom: 70
+    flexDirection: 'column',
+    marginTop: 20,
+    marginBottom: 20
   },
   inputText: { 
     alignItems:'center',
@@ -86,14 +102,25 @@ const styles = StyleSheet.create({
     width: DEVICE_WIDTH - 100,
     height: 50, 
     borderColor: 'gray',  
+    borderWidth: 1,
     paddingLeft: 5, 
     backgroundColor: 'white',
   },
-  buttonStyle: {
+  LogInButtonStyle: {
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor: '#6a0008',
+    backgroundColor: '#bb0000',
     marginTop: 20,
+    width: DEVICE_WIDTH - 100,
+    height: 50,
+    alignSelf: 'center',
+    borderRadius: 30
+  },
+  SignUpButtonStyle: {
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor: 'gray',
+    marginTop: 10,
     width: DEVICE_WIDTH - 100,
     height: 50,
     alignSelf: 'center',
@@ -102,6 +129,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     color: 'white'
+  },
+  LogoStyle: {
+    height: DEVICE_WIDTH/2.5,
+    width: DEVICE_WIDTH/2.5,
   },
   ImageStyle: {    // Image icon style
     padding: 10,
