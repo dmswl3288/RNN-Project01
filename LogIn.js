@@ -19,7 +19,7 @@ export default class LogIn extends Component {
     return{
       topBar: {
         title: {
-          text: 'Log In Screen'   // Title 제목
+          text: 'SECRET'   // Title 제목
         },
       }
     };
@@ -62,7 +62,7 @@ export default class LogIn extends Component {
             });
           }}
           style={styles.LogInButtonStyle}>
-          <Text style={styles.buttonText}>LOG IN</Text>
+          <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {     // Sign up
             Navigation.push(this.props.componentId, {

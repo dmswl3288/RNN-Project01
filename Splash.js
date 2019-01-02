@@ -32,7 +32,7 @@ export default class Splash extends Component {
         // Start counting when the page is loaded
         this.timeoutHandle = setTimeout(()=>{ goToAuth();
              // Add your logic for the transition
-        }, 3000);
+        }, 1000);
    }
 
     render(){

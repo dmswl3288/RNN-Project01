@@ -81,7 +81,7 @@ export default class LogIn extends Component {
               <TouchableOpacity onPress={() => {     // Sign up
                   Alert.alert("Sign Up", "회원가입이 정상처리 되었습니다.",
                   [
-                    {text: 'YES', onPress:() => {Navigation.pop(this.props.componentId);}}]);
+                    {text: 'OK', onPress:() => {Navigation.pop(this.props.componentId);}}]);
                 }}
                 style={styles.SignUpButtonStyle}>
                 <Text style={styles.buttonText}>SIGN UP</Text>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     backgroundColor: 'gray',
-    marginTop: 10,
+    marginTop: 20,
     width: DEVICE_WIDTH - 100,
     height: 50,
     alignSelf: 'center',
