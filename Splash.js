@@ -29,16 +29,17 @@ export default class Splash extends Component {
         }
     }*/
     componentDidMount(){
+        // Hide StatusBar
+        StatusBar.setHidden(true);
         // Start counting when the page is loaded
         this.timeoutHandle = setTimeout(()=>{ goToAuth();
              // Add your logic for the transition
         }, 1000);
-   }
+    }
 
     render(){
         return(
            <View style={styles.container}>
-               <StatusBar barStyle="light-content" hidden={false} backgroundColor="#6a0008"/>
                <Image style={styles.LogoStyle} 
                  source={require('./android/app/src/main/assets/secret_white.png')}/>
                <Image style={styles.Title} 

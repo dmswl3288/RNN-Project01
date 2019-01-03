@@ -8,4 +8,5 @@ export function registerScreens(){
     Navigation.registerComponent('LogIn', () => require('./LogIn').default);
     Navigation.registerComponent('SignUp', () => require('./SignUp').default);
     Navigation.registerComponent('Completed', () => require('./Completed').default);
+    Navigation.registerComponent('ToDoList', () => require('./ToDoList').default);
 }

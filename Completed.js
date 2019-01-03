@@ -26,10 +26,24 @@ export default class Completed extends Component {
         };
     }
 
+    componentWillMount(){
+        StatusBar.setBarStyle('dark-content');
+        StatusBar.setHidden(false);
+        StatusBar.setBackgroundColor('#ffffff');
+      }
+
     render(){
         return(
             <View style={styles.container}>
-                <TouchableOpacity style={styles.Card1}>
+                <StatusBar/>
+                <TouchableOpacity style={styles.Card1}
+                    onPress={() => {      // Log In
+                        Navigation.push(this.props.componentId, {
+                            component: {
+                              name: 'ToDoList',
+                            }     
+                        });
+                    }}>
                   <Text style={{fontSize: 20, color: 'white', marginTop: 15,
                                 alignSelf: 'center'}}>Weekly</Text>
                   <View style={styles.CardContent1}>

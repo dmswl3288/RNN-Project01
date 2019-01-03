@@ -13,7 +13,6 @@ Navigation.events().registerAppLaunchedListener(() => {
         id: 'Splash',
         name:'Splash',
       },
-      
     }
   });
 });

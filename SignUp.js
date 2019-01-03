@@ -23,14 +23,20 @@ export default class LogIn extends Component {
         title: {
           text: 'Sign Up'   // Title 제목
         },
-      }
+      },
     };
+  }
+
+  componentWillMount(){
+    StatusBar.setBarStyle('dark-content');
+    StatusBar.setHidden(false);
+    StatusBar.setBackgroundColor('#ffffff');
   }
 
   render() {
     return (    
         <View style={styles.container}>
-         <StatusBar barStyle="light-content" hidden={false} backgroundColor="#6a0008"/>
+         <StatusBar/>
           <ScrollView>
             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
               <Image style={styles.Logo} 
@@ -125,7 +131,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: "#000",
         shadowOpacity: 0.5,
-        shadowRadius: 5
+        shadowRadius: 5,
+        shadowOffset: {
+          width: 0,
+          height: -1
+      }
       },
       android: {
         elevation: 5

@@ -14,21 +14,30 @@ export default class LogIn extends Component {
     super(props);
     // 초기 상태 저장
     this.state = { text: ''};
+    this.preState = { value: ' '};
   }
   static get options(){
     return{
       topBar: {
+        visible: true,
+        animated: false,
         title: {
           text: 'SECRET'   // Title 제목
         },
-      }
+      },
     };
   }
 
+  componentWillMount(){
+    StatusBar.setBarStyle('dark-content');
+    StatusBar.setHidden(false);
+    StatusBar.setBackgroundColor('#ffffff');
+  }
+ 
   render() {
     return (     
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-       <StatusBar barStyle="light-content" hidden={false} backgroundColor="#6a0008"/>
+       <StatusBar/>
        <ScrollView>
         <View style={{width: DEVICE_WIDTH, height: 24}}/>
         <View style={styles.titleView}>
@@ -84,7 +93,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   titleView: {
     alignSelf: 'center',
