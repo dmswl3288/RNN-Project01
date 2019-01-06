@@ -17,7 +17,9 @@ export default class ToDo extends Component {
         text: PropTypes.string.isRequired,
         isCompleted: PropTypes.bool.isRequired,
         deleteToDo: PropTypes.func.isRequired,
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
+        uncompletedToDo: PropTypes.func.isRequired,
+        completedToDo: PropTypes.func.isRequired
     }
     state = {
         isEditing: false,
@@ -26,8 +28,8 @@ export default class ToDo extends Component {
     };
 
     render(){
-        const { isCompleted } = this.state;
-        const { text, id, deleteToDo } = this.props;
+        const { isEditing, toDoValue } = this.state;
+        const { text, id, deleteToDo, isCompleted } = this.props;
         return(
             <View style={styles.container}>
               <View style={styles.column}>
@@ -42,7 +44,8 @@ export default class ToDo extends Component {
               <View style={styles.actions}>
                 <TouchableOpacity onPressOut={() => deleteToDo(id)}>
                    <View style={styles.actionContainer}>
-                       <Text>delete</Text>
+                       <Image style={styles.trashImage} 
+                        source={require("./android/app/src/main/assets/trash.png")}/>
                    </View>
                 </TouchableOpacity>
               </View>
@@ -50,11 +53,12 @@ export default class ToDo extends Component {
         );
     }
     _toggleCompleted = () => {   // 토글
-        this.setState(prevState => {
-            return {
-                isCompleted: !prevState.isCompleted
-            }
-        });
+        const { isCompleted, uncompletedToDo, completedToDo, id} = this.props;
+        if(isCompleted){
+            uncompletedToDo(id);
+        } else{
+            completedToDo(id);
+        }
     }
 }
 
@@ -94,18 +98,19 @@ const styles = StyleSheet.create({
     column: {
         flexDirection: "row",
         alignItems: "center",
-        width: DEVICE_WIDTH / 2
+        width: DEVICE_WIDTH / 1.7,
+        marginRight: 30
     },
     actions: {
-        flexDirection: "row"
+        flexDirection: "row",
+        marginLeft: 20
     },
     actionContainer: {
         marginVertical: 10,
         marginHorizontal: 10
     },
-    input: {
-        width: DEVICE_WIDTH / 2,
-        marginVertical: 15,
-        paddingBottom: 5
+    trashImage: {
+        width: 30,
+        height: 30
     }
 });

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, 
         View, TouchableOpacity, Image,
         StatusBar, ScrollView, Platform,
-        Alert } from 'react-native';
+        Alert, AsyncStorage } from 'react-native';
 import Dimensions from 'Dimensions';
 import {Navigation} from 'react-native-navigation';
 import ToDo from './ToDo';
@@ -56,8 +56,14 @@ export default class ToDoList extends Component {
                     onSubmitEditing={this._addToDo}
                     />
                     <ScrollView contentContainerStyle={styles.toDos}>
-                        {Object.values(toDos).map(toDo => <ToDo key={toDo.id} {...toDo} 
-                            deleteToDo={this._deleteToDo}/>)}
+                        {Object.values(toDos)
+                        .reverse()
+                        .map(toDo => 
+                        <ToDo key={toDo.id} 
+                            deleteToDo={this._deleteToDo}
+                            uncompletedToDo={this._uncompletedToDo}
+                            completedToDo={this._completedToDo}
+                            { ...toDo }/>)}
                     </ScrollView>
                 </View>
                 </View>
@@ -70,10 +76,18 @@ export default class ToDoList extends Component {
             newToDo: text
         });
     };
-    _loadToDos = () => {
-        this.setState({
-            isLoadedToDos: true
-        })
+    _loadToDos = async() => {
+        try {
+            // 저장된 오브젝트 가져오기   끝나기를 기다림
+            const toDos = await AsyncStorage.getItem("toDos");
+            const parsedToDos = JSON.parse(toDos);  // 다시 object로 convert해서 저장
+            this.setState({
+                isLoadedToDos: true,
+                toDos: parsedToDos           // 가져온 Object 저장, 로딩
+            });
+        } catch(error){
+            console.log(error);
+        }
     };
     _addToDo = () => {
         const { newToDo } = this.state; 
@@ -96,6 +110,7 @@ export default class ToDoList extends Component {
                         ...newToDoObject
                     }
                 };
+                this._saveToDos(newState.toDos);
                 return { ...newState };
             })
         }
@@ -108,9 +123,46 @@ export default class ToDoList extends Component {
                 ...prevState,
                 ...toDos
             };
+            this._saveToDos(newState.toDos);
             return { ...newState };
         });
     };
+    _uncompletedToDo = (id) => {
+        this.setState(prevState => {
+            const newState = {
+                ...prevState,
+                toDos: {
+                    ...prevState.toDos,
+                    [id]: {     // 만약 새로운 ID가 있다면 덮어쓰기
+                        ...prevState.toDos[id],  //ID에 따른 모든 정보 포함
+                        isCompleted: false
+                    }
+                }
+            };
+            this._saveToDos(newState.toDos);
+            return { ...newState };
+        });
+    };
+    _completedToDo = (id) => {
+        this.setState(prevState => {
+            const newState = {
+                ...prevState,
+                toDos: {
+                    ...prevState.toDos,
+                    [id]: {     // 만약 새로운 ID가 있다면 덮어쓰기
+                        ...prevState.toDos[id],  //ID에 따른 모든 정보 포함
+                        isCompleted: true
+                    }
+                }
+            };
+            this._saveToDos(newState.toDos);
+            return { ...newState };
+        });
+    };
+    _saveToDos = (newToDos) => {  // function for saving items
+                                                        // object -> string
+        const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
+    }
 }
 
 const styles=StyleSheet.create({
