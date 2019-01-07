@@ -52,7 +52,14 @@ export default class Completed extends Component {
                   </View>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.Card2}>
+                <TouchableOpacity style={styles.Card2}
+                     onPress={() => {      // Log In
+                        Navigation.push(this.props.componentId, {
+                            component: {
+                              name: 'NotePW',
+                            }     
+                        });
+                    }}>
                   <Text style={{fontSize: 20, color: 'white', marginTop: 15,
                                 alignSelf: 'center'}}>Note my password</Text>
                   <View style={styles.CardContent1}>

@@ -1,4 +1,4 @@
-/* Completed.js 메인메뉴 선택 화면 */
+/* ToDoList.js 메인메뉴 선택 화면 */
 import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, 
         View, TouchableOpacity, Image,
