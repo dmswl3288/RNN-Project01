@@ -17,27 +17,38 @@ export default class NoteItem extends Component{
         websiteText: PropTypes.string.isRequired,
         idText: PropTypes.string.isRequired,
         pwText: PropTypes.string.isRequired,
+        deleteInfo: PropTypes.func.isRequired,
+        id: PropTypes.string.isRequired,
     }
     render(){
-        const { websiteText, idText, pwText } = this.props;
+        const { websiteText, idText, pwText, deleteInfo, id } = this.props;
         return(
             <View style={styles.container}>
-              <Text style={styles.website}>{websiteText}</Text>
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.textStyle}>
-                    <Text style={{color: "#000", alignSelf: "center",fontSize: 15,
-                                fontWeight: 'bold'}}>ID</Text>
-                </View>
-                <Text style={styles.valueID}>{idText}</Text>
-              </View>
+                <View>
+                    <Text style={styles.website}>{websiteText}</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.textStyle}>
+                            <Text style={{color: "#000", alignSelf: "center",fontSize: 15,
+                                        fontWeight: 'bold'}}>ID</Text>
+                        </View>
+                        <Text style={styles.valueID}>{idText}</Text>
+                    </View>
 
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.textStyle}>
-                    <Text style={{color: "#000", alignSelf: "center", fontSize: 15,
-                                fontWeight: 'bold'}}>PW</Text>
-                </View>
-                 <Text style={styles.valuePW}>{pwText}</Text>
-              </View>              
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.textStyle}>
+                            <Text style={{color: "#000", alignSelf: "center", fontSize: 15,
+                                        fontWeight: 'bold'}}>PW</Text>
+                        </View>
+                        <Text style={styles.valuePW}>{pwText}</Text>
+                    </View>      
+                </View> 
+
+                <View style={styles.view02}>
+                    <TouchableOpacity onPressOut={() => deleteInfo(id)}>
+                        <Image style={styles.trashImage}
+                        source={require("./android/app/src/main/assets/trash.png")}/>
+                    </TouchableOpacity>
+                </View>       
             </View>
         );
     }
@@ -49,8 +60,8 @@ const styles = StyleSheet.create({
         width: DEVICE_WIDTH-50,
         borderBottomColor: '#780c00',
         borderBottomWidth: StyleSheet.hairlineWidth,
-        flexDirection: 'column',
-        
+        flexDirection: 'row',
+        marginBottom: 5
     },
     website: {
         fontSize: 20,
@@ -74,5 +85,16 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         color: "#000",
     },
-    
+    trashImage: {
+        width: 30,
+        height: 30
+    },
+    view01: {
+
+    },
+    view02: {
+        flex: 1, 
+        justifyContent: "center", 
+        alignItems: 'flex-end'
+    }
 });

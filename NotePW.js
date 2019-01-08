@@ -12,10 +12,6 @@ import uuidv1 from "uuid/v1";
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-var websiteText = "";
-var idText = "";
-var pwText = "";
-
 export default class NotePW extends Component {
     constructor(props){   // 생성자
         super(props);
@@ -35,8 +31,12 @@ export default class NotePW extends Component {
         StatusBar.setHidden(false);
         StatusBar.setBackgroundColor('#ffffff');
     }
+    componentDidMount(){
+        this._loadedInfos();
+    }
 
     state = {
+        isLoadedInfos: false,
         newWebsite: "",
         newID: "",
         newPW: "",
@@ -91,8 +91,12 @@ export default class NotePW extends Component {
                   </TouchableOpacity>
 
                   <ScrollView contentContainerStyle={styles.NoteInfo}>
-                     <NoteItem websiteText={websiteText}
-                       idText={idText} pwText={pwText}/>
+                      {Object.values(infos)
+                      .reverse()
+                      .map(info => 
+                      <NoteItem key={info.id} 
+                      deleteInfo={this._deleteInfo}
+                      { ...info }/>)}
                   </ScrollView>
                 </View>
                </View>
@@ -117,31 +121,63 @@ export default class NotePW extends Component {
             newPW: text
         });
     };
+    _loadedInfos = async() => {
+        try{
+            // 저장된 오브젝트 가져오기   끝나기를 기다림
+            const infos = await AsyncStorage.getItem("infos");
+            const parsedInfos = JSON.parse(infos);  // 다시 object로 convert해서 저장
+            this.setState({
+                isLoadedInfos: true,
+                infos: parsedInfos           // 가져온 Object 저장, 로딩
+            });
+        } catch(err) {
+            console.log(err);
+        }
+    };
     _adding = () => {
         const { newWebsite, newID, newPW } = this.state;
-        websiteText = newWebsite;
-        idText = newID;
-        pwText = newPW;
         if(newWebsite !== "" && newID !== "" && newPW !== ""){
             this.setState(prevState => {
                 const uuid = uuidv1();
                 const newInfoObject = {
                     [uuid]: {
                         id: uuid,
-                        websiteText: websiteText,
-                        idText: idText,            // 그냥 바로 state넣어도 됨
-                        pwText: pwText,
+                        websiteText: newWebsite,
+                        idText: newID,            // 그냥 바로 state넣어도 됨
+                        pwText: newPW,
                         createAt: Date.now()
                     }
                 };
-            });
-           
-            this.setState({
-                newWebsite: "",
-                newID: "",
-                newPW: ""
+                const newState = {
+                    ...prevState,
+                    newWebsite: "",
+                    newID: "",
+                    newPW: "",
+                    infos: {
+                        ...prevState.infos,
+                        ...newInfoObject
+                    }
+                };
+                this._saveInfos(newState.infos);
+                return { ...newState };
             });
         }
+    };
+    _deleteInfo = (id) => {
+        this.setState(prevState => {
+            const infos = prevState.infos;
+            delete infos[id];
+            const newState = {
+                ...prevState,
+                ...infos
+            };
+            this._saveInfos(newState.infos);
+            return { ...newState };
+        });
+    };
+    _saveInfos = (newInfos) => {
+                                                             // object -> string
+        const saveInfos = AsyncStorage.setItem("infos", JSON.stringify(newInfos));
     };
 }
 

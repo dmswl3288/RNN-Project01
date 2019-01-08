@@ -11,11 +11,16 @@ import {Navigation} from 'react-native-navigation';
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-export default class LogIn extends Component {
+export default class SignUp extends Component {
   constructor(props){   // 생성자
     super(props);
     // 초기 상태 저장
-    this.state = { text: ''};
+    this.state = {
+      TextInputName: "",
+      TextInputEmail: "",
+      TextInputPW: "",
+      TextInputConfirmPW: ""
+    };
   }
   static get options(){
     return{
@@ -33,6 +38,51 @@ export default class LogIn extends Component {
     StatusBar.setBackgroundColor('#ffffff');
   }
 
+  _InsertDataToServer = () => {
+    const { TextInputName, TextInputEmail, 
+            TextInputPW, TextInputConfirmPW } = this.state;
+    
+    if(this._isCompleted() == true){   // 완벽하다면 접속
+        fetch("http://61.102.48.100/submit_user_info.php", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+
+            user_name: TextInputName,
+            user_email: TextInputEmail,
+            user_pw: TextInputPW,
+            user_confirm_pw: TextInputConfirmPW
+          })
+        }).then((reponse) => reponse.json())
+          .then((reponseJson) => {
+            
+              Alert.alert("Sign Up", reponseJson,
+              [
+                {text: 'OK', onPress:() => {Navigation.pop(this.props.componentId);}}]);
+          }).catch((error) => {
+            console.error(error);
+          });
+    }
+    else{
+      Alert.alert("Wrong");
+    }
+
+  }
+  _isCompleted = () => {
+    const { TextInputName, TextInputEmail, 
+      TextInputPW, TextInputConfirmPW } = this.state;
+    if(TextInputName != "" && TextInputEmail != "" && TextInputPW != "" && TextInputConfirmPW != ""){
+      if(TextInputPW === TextInputConfirmPW){
+        return true;
+      }
+    }
+    else{
+      return false;
+    }
+  }
   render() {
     return (    
         <View style={styles.container}>
@@ -50,6 +100,7 @@ export default class LogIn extends Component {
                   <TextInput                                   // User Name
                     autoCorrect={false}                        // Remove a line
                     placeholder='Name' // place holder
+                    onChangeText={TextInputName => this.setState({TextInputName})}
                   />
                 </View> 
               </View>
@@ -59,8 +110,7 @@ export default class LogIn extends Component {
                   <TextInput                                  // User Email
                     autoCorrect={false}                       // Remove a line
                     placeholder='UserID@email.com' // place holder
-                    onChangeText={(text) => this.setState({text})}
-                    value={this.state.text}
+                    onChangeText={TextInputEmail => this.setState({TextInputEmail})}
                   />
                 </View> 
               </View>
@@ -71,6 +121,7 @@ export default class LogIn extends Component {
                     autoCorrect={false}                       // Remove a line
                     secureTextEntry={true}
                     placeholder='Password' // place holder
+                    onChangeText={TextInputPW => this.setState({TextInputPW})}
                   />
                 </View> 
               </View>
@@ -81,14 +132,11 @@ export default class LogIn extends Component {
                     autoCorrect={false}                       // Remove a line
                     secureTextEntry={true}
                     placeholder='Password' // place holder
+                    onChangeText={TextInputConfirmPW => this.setState({TextInputConfirmPW})}
                   />
                 </View> 
               </View>
-              <TouchableOpacity onPress={() => {     // Sign up
-                  Alert.alert("Sign Up", "회원가입이 정상처리 되었습니다.",
-                  [
-                    {text: 'OK', onPress:() => {Navigation.pop(this.props.componentId);}}]);
-                }}
+              <TouchableOpacity onPress={this._InsertDataToServer}    // Sign up
                 style={styles.SignUpButtonStyle}>
                 <Text style={styles.buttonText}>SIGN UP</Text>
               </TouchableOpacity>
