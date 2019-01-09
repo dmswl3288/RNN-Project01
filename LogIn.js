@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, 
         View, TouchableOpacity, Image,
-        StatusBar, ScrollView } from 'react-native';
+        Alert, StatusBar, ScrollView } from 'react-native';
 import Dimensions from 'Dimensions';
 import {Navigation} from 'react-native-navigation';
 
@@ -13,7 +13,10 @@ export default class LogIn extends Component {
   constructor(props){   // 생성자
     super(props);
     // 초기 상태 저장
-    this.state = { text: ''};
+    this.state = {
+      TextInputEmail: "",
+      TextInputPW: "",
+    };
     this.preState = { value: ' '};
   }
   static get options(){
@@ -50,8 +53,7 @@ export default class LogIn extends Component {
           <TextInput   // User ID
             autoCorrect={false}    // Remove a line
             placeholder='UserID@email.com' // place holder
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            onChangeText={TextInputEmail => this.setState({TextInputEmail})}
           />
         </View>
 
@@ -59,25 +61,21 @@ export default class LogIn extends Component {
           <Image source={require('./android/app/src/main/assets/password.png')}
                   style={styles.ImageStyle}/>
           <TextInput   // Password
+            autoCorrect={false}
             secureTextEntry={true}
             placeholder='Password' // place holder
+            onChangeText={TextInputPW => this.setState({TextInputPW})}
           />
         </View>
-        <TouchableOpacity onPress={() => {      // Log In
-            Navigation.push(this.props.componentId, {
-                component: {
-                  name: 'Completed',
-                }     
-            });
-          }}
+        <TouchableOpacity onPress={this._configuration}   // login
           style={styles.LogInButtonStyle}>
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {     // Sign up
+        <TouchableOpacity onPress={() => {                // Sign up
             Navigation.push(this.props.componentId, {
-                component: {
-                  name: 'SignUp',
-                }     
+              component: {
+                name: 'SignUp',
+              }
             });
           }}
           style={styles.SignUpButtonStyle}>
@@ -87,6 +85,37 @@ export default class LogIn extends Component {
       </View>
     );
   }
+  _configuration = () => {
+    const {TextInputEmail, TextInputPW} = this.state;
+    fetch("http://61.102.48.100/login_user_info.php", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+
+            user_email: TextInputEmail,
+            user_pw: TextInputPW,
+          })
+        }).then((reponse) => reponse.json())
+          .then((reponseJson) => {
+            
+            if(reponseJson == "correct"){
+              Navigation.push(this.props.componentId, {
+                component: {
+                  name: 'Completed',
+                }     
+              });
+            }
+            else{
+              Alert.alert(reponseJson);
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+
+  };
 }
 
 const styles = StyleSheet.create({
