@@ -15,6 +15,14 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 export default class NotePW extends Component {
     constructor(props){   // 생성자
         super(props);
+
+        this.state = {
+            isLoadedInfos: false,
+            newWebsite: "",
+            newID: "",
+            newPW: "",
+            infos: {}
+        }
     }
     static get options(){
         return{
@@ -31,17 +39,7 @@ export default class NotePW extends Component {
         StatusBar.setHidden(false);
         StatusBar.setBackgroundColor('#ffffff');
     }
-    componentDidMount(){
-        this._loadedInfos();
-    }
-
-    state = {
-        isLoadedInfos: false,
-        newWebsite: "",
-        newID: "",
-        newPW: "",
-        infos: {}
-    }
+    
     render(){
         const { newWebsite, newID, newPW, infos } = this.state;
         
@@ -121,15 +119,22 @@ export default class NotePW extends Component {
             newPW: text
         });
     };
+
+    componentDidMount(){
+        this._loadedInfos();
+    }
+
     _loadedInfos = async() => {
         try{
             // 저장된 오브젝트 가져오기   끝나기를 기다림
-            const infos = await AsyncStorage.getItem("infos");
-            const parsedInfos = JSON.parse(infos);  // 다시 object로 convert해서 저장
-            this.setState({
-                isLoadedInfos: true,
-                infos: parsedInfos           // 가져온 Object 저장, 로딩
-            });
+            const infos = await AsyncStorage.getItem("infos") || "none";
+            if(infos !== "none"){
+                const parsedInfos = JSON.parse(infos);  // 다시 object로 convert해서 저장
+                this.setState({
+                    isLoadedInfos: true,
+                    infos: parsedInfos           // 가져온 Object 저장, 로딩
+                });
+            }
         } catch(err) {
             console.log(err);
         }

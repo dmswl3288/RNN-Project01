@@ -108,7 +108,7 @@ export default class SignUp extends Component {
                 <Text style={styles.NameText}>Email</Text>
                 <View style={styles.inputText}>
                   <TextInput                                  // User Email
-                    autoCorrect={false}                       // Remove a line
+                    keyboardType={'email-address'}
                     placeholder='UserID@email.com' // place holder
                     onChangeText={TextInputEmail => this.setState({TextInputEmail})}
                   />

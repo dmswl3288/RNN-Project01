@@ -40,6 +40,7 @@ export default class Completed extends Component {
                     onPress={() => {      // Log In
                         Navigation.push(this.props.componentId, {
                             component: {
+                              id: 'ToDoList',
                               name: 'ToDoList',
                             }     
                         });
@@ -56,6 +57,7 @@ export default class Completed extends Component {
                      onPress={() => {      // Log In
                         Navigation.push(this.props.componentId, {
                             component: {
+                              id: 'NotePW',
                               name: 'NotePW',
                             }     
                         });

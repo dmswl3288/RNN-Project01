@@ -16,6 +16,12 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 export default class ToDoList extends Component {
     constructor(props){   // 생성자
         super(props);
+
+        this.state = {
+            newToDo: "",
+            isLoadedToDos: false,
+            toDos: {}
+        };
     }
     static get options(){
         return{
@@ -32,14 +38,6 @@ export default class ToDoList extends Component {
         StatusBar.setBackgroundColor('#ffffff');
     }
 
-    state = {
-        newToDo: "",
-        isLoadedToDos: false,
-        toDos: {}
-    };
-    componentDidMount = () => {
-        this._loadToDos();
-    }
     render(){
         const { newToDo, isLoadedToDos, toDos } = this.state;
         return(
@@ -76,15 +74,22 @@ export default class ToDoList extends Component {
             newToDo: text
         });
     };
+
+    componentDidMount(){
+        this._loadToDos();
+    }
+
     _loadToDos = async() => {
         try {
             // 저장된 오브젝트 가져오기   끝나기를 기다림
-            const toDos = await AsyncStorage.getItem("toDos");
-            const parsedToDos = JSON.parse(toDos);  // 다시 object로 convert해서 저장
-            this.setState({
-                isLoadedToDos: true,
-                toDos: parsedToDos           // 가져온 Object 저장, 로딩
-            });
+            const toDos = await AsyncStorage.getItem("toDos") || "none";
+            if(toDos !== "none"){
+                const parsedToDos = JSON.parse(toDos);  // 다시 object로 convert해서 저장
+                this.setState({
+                    isLoadedToDos: true,
+                    toDos: parsedToDos           // 가져온 Object 저장, 로딩
+                });
+            }
         } catch(error){
             console.log(error);
         }
@@ -177,10 +182,10 @@ const styles=StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         alignSelf: 'center',
-        fontWeight: "bold"
+        fontWeight: "bold",
+        color: 'gray'
     },
     Card1: {
-        flex: 1,
         backgroundColor: '#A4B9C6',
         width: DEVICE_WIDTH-20,
         height: DEVICE_HEIGHT,

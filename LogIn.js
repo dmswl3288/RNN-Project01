@@ -51,7 +51,7 @@ export default class LogIn extends Component {
           <Image source={require('./android/app/src/main/assets/UserID.png')}
                  style={styles.ImageStyle}/>
           <TextInput   // User ID
-            autoCorrect={false}    // Remove a line
+            keyboardType={'email-address'}
             placeholder='UserID@email.com' // place holder
             onChangeText={TextInputEmail => this.setState({TextInputEmail})}
           />
@@ -74,6 +74,7 @@ export default class LogIn extends Component {
         <TouchableOpacity onPress={() => {                // Sign up
             Navigation.push(this.props.componentId, {
               component: {
+                id: 'SignUp',
                 name: 'SignUp',
               }
             });
@@ -104,6 +105,7 @@ export default class LogIn extends Component {
             if(reponseJson == "correct"){
               Navigation.push(this.props.componentId, {
                 component: {
+                  id: 'Completed',
                   name: 'Completed',
                 }     
               });
