@@ -26,6 +26,10 @@ export default class SignUp extends Component {
   }
   static get options(){
     return{
+      statusBar: {
+        backgroundColor: "#fff",
+        style: 'dark',
+      },
       topBar: {
         title: {
           text: '회원가입'   // Title 제목
@@ -135,7 +139,7 @@ export default class SignUp extends Component {
               this.setState({
                 isLoading: false
               });
-              
+
               Alert.alert("가입 완료", reponseJson,
               [
                 {text: 'OK', onPress:() => {Navigation.pop(this.props.componentId);}}]);

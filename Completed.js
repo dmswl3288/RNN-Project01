@@ -17,6 +17,10 @@ export default class Completed extends Component {
     }
     static get options(){
         return{
+          statusBar: {
+            backgroundColor: "#fff",
+            style: 'dark'        
+          },
           topBar: {
             visible: true,
             title: {

@@ -23,6 +23,10 @@ export default class LogIn extends Component {
   }
   static get options(){
     return{
+      statusBar: {
+        backgroundColor: "#fff",
+        style: 'dark'
+      },
       topBar: {
         visible: true,
         animated: false,
@@ -95,7 +99,7 @@ export default class LogIn extends Component {
   _configuration = () => {
     const {TextInputEmail, TextInputPW} = this.state;
 
-    if(TextInputEmail == "" && TextInputPW == ""){
+    if(TextInputEmail == "" || TextInputPW == ""){
       Alert.alert("다시 시도해 주세요", "아이디/비밀번호를 입력해 주세요");
       return;
     }
@@ -132,6 +136,10 @@ export default class LogIn extends Component {
             }
             else{
               Alert.alert("인증 오류", reponseJson);
+              this.setState({
+                TextInputEmail: "",
+                TextInputPW: ""
+              });
             }
           }).catch((error) => {
             console.error(error);

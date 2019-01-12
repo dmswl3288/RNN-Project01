@@ -26,6 +26,10 @@ export default class NotePW extends Component {
     }
     static get options(){
         return{
+          statusBar: {
+            backgroundColor: "#fff",
+            style: 'dark'
+          },
           topBar: {
             visible: false,   // top bar 제거
             drawBehind: true,
