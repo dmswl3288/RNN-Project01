@@ -6,6 +6,7 @@ import { StyleSheet, Text, TextInput,
         Alert } from 'react-native';
 import Dimensions from 'Dimensions';
 import {Navigation} from 'react-native-navigation';
+import ActivityIndicatorExample from './ActivityIndicatorExample';
 
 // 기기의 해상도 가져오기
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -16,6 +17,7 @@ export default class SignUp extends Component {
     super(props);
     // 초기 상태 저장
     this.state = {
+      isLoading: false,
       TextInputName: "",
       TextInputEmail: "",
       TextInputPW: "",
@@ -26,7 +28,7 @@ export default class SignUp extends Component {
     return{
       topBar: {
         title: {
-          text: 'Sign Up'   // Title 제목
+          text: '회원가입'   // Title 제목
         },
       },
     };
@@ -38,52 +40,11 @@ export default class SignUp extends Component {
     StatusBar.setBackgroundColor('#ffffff');
   }
 
-  _InsertDataToServer = () => {
-    const { TextInputName, TextInputEmail, 
-            TextInputPW, TextInputConfirmPW } = this.state;
-    
-    if(this._isCompleted() == true){   // 완벽하다면 접속
-        fetch("http://61.102.48.100/submit_user_info.php", {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-
-            user_name: TextInputName,
-            user_email: TextInputEmail,
-            user_pw: TextInputPW,
-            user_confirm_pw: TextInputConfirmPW
-          })
-        }).then((reponse) => reponse.json())
-          .then((reponseJson) => {
-            
-              Alert.alert("Sign Up", reponseJson,
-              [
-                {text: 'OK', onPress:() => {Navigation.pop(this.props.componentId);}}]);
-          }).catch((error) => {
-            console.error(error);
-          });
-    }
-    else{
-      Alert.alert("Wrong");
-    }
-
-  }
-  _isCompleted = () => {
-    const { TextInputName, TextInputEmail, 
-      TextInputPW, TextInputConfirmPW } = this.state;
-    if(TextInputName != "" && TextInputEmail != "" && TextInputPW != "" && TextInputConfirmPW != ""){
-      if(TextInputPW === TextInputConfirmPW){
-        return true;
-      }
-    }
-    else{
-      return false;
-    }
-  }
   render() {
+    const {isLoading} = this.state;
+    if(isLoading){
+      return <ActivityIndicatorExample />;
+    }
     return (    
         <View style={styles.container}>
          <StatusBar/>
@@ -144,6 +105,60 @@ export default class SignUp extends Component {
           </ScrollView>
         </View>
     );
+  }
+  _InsertDataToServer = () => {
+    const { TextInputName, TextInputEmail, 
+            TextInputPW, TextInputConfirmPW } = this.state;
+    
+    if(this._isCompleted() == true){   // 완벽하다면 접속
+
+        this.setState({
+          isLoading: true
+        });
+
+        fetch("http://61.102.48.100/submit_user_info.php", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+
+            user_name: TextInputName,
+            user_email: TextInputEmail,
+            user_pw: TextInputPW,
+            user_confirm_pw: TextInputConfirmPW
+          })
+        }).then((reponse) => reponse.json())
+          .then((reponseJson) => {
+              
+              this.setState({
+                isLoading: false
+              });
+              
+              Alert.alert("가입 완료", reponseJson,
+              [
+                {text: 'OK', onPress:() => {Navigation.pop(this.props.componentId);}}]);
+          }).catch((error) => {
+            console.error(error);
+          });
+    }
+    else{
+      Alert.alert("가입 실패", "모든 정보를 정확하게 입력해 주세요");
+    }
+
+  }
+  _isCompleted = () => {
+    const { TextInputName, TextInputEmail, 
+      TextInputPW, TextInputConfirmPW } = this.state;
+    if(TextInputName != "" && TextInputEmail != "" && TextInputPW != "" && TextInputConfirmPW != ""){
+      if(TextInputPW === TextInputConfirmPW){
+        return true;
+      }
+    }
+    else{
+      return false;
+    }
   }
 }
 

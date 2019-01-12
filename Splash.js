@@ -14,20 +14,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 export default class Splash extends Component {
-    /*async componentDidMount() {
-        try{
-            const user = await AsyncStorage.getItem(USER_KEY);
-            console.log('user: ', user);
-            if(user){     // 사용자 확인이 된 경우
-                goHome();
-            } else{         // 사용자 인증이 안 된 경우
-                goToAuth();
-            }
-        } catch(err){
-            console.log('error: ', err);
-            goToAuth();
-        }
-    }*/
+
     componentDidMount(){
         // Hide StatusBar
         StatusBar.setHidden(true);

@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput,
         Alert, StatusBar, ScrollView } from 'react-native';
 import Dimensions from 'Dimensions';
 import {Navigation} from 'react-native-navigation';
+import ActivityIndicatorExample from './ActivityIndicatorExample';
 
 // 기기의 해상도 가져오기
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -14,6 +15,7 @@ export default class LogIn extends Component {
     super(props);
     // 초기 상태 저장
     this.state = {
+      isLoading: false,
       TextInputEmail: "",
       TextInputPW: "",
     };
@@ -38,6 +40,10 @@ export default class LogIn extends Component {
   }
  
   render() {
+    const { isLoading } = this.state;
+    if(isLoading){
+      return <ActivityIndicatorExample/>;
+    }
     return (     
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
        <StatusBar/>
@@ -88,6 +94,16 @@ export default class LogIn extends Component {
   }
   _configuration = () => {
     const {TextInputEmail, TextInputPW} = this.state;
+
+    if(TextInputEmail == "" && TextInputPW == ""){
+      Alert.alert("다시 시도해 주세요", "아이디/비밀번호를 입력해 주세요");
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
     fetch("http://61.102.48.100/login_user_info.php", {
           method: 'POST',
           headers: {
@@ -102,6 +118,10 @@ export default class LogIn extends Component {
         }).then((reponse) => reponse.json())
           .then((reponseJson) => {
             
+            this.setState({
+              isLoading: false
+            });
+
             if(reponseJson == "correct"){
               Navigation.push(this.props.componentId, {
                 component: {
@@ -111,7 +131,7 @@ export default class LogIn extends Component {
               });
             }
             else{
-              Alert.alert(reponseJson);
+              Alert.alert("인증 오류", reponseJson);
             }
           }).catch((error) => {
             console.error(error);

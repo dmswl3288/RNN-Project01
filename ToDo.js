@@ -28,7 +28,6 @@ export default class ToDo extends Component {
     };
 
     render(){
-        const { isEditing, toDoValue } = this.state;
         const { text, id, deleteToDo, isCompleted } = this.props;
         return(
             <View style={styles.container}>
@@ -65,7 +64,7 @@ export default class ToDo extends Component {
 const styles = StyleSheet.create({
     container: {
         width: DEVICE_WIDTH-50,
-        borderBottomColor: 'blue',
+        borderBottomColor: '#A4B9C6',
         borderBottomWidth: StyleSheet.hairlineWidth,
         flexDirection: 'row',
         alignItems: 'center',

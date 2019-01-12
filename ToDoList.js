@@ -219,7 +219,7 @@ const styles=StyleSheet.create({
     },
     input: {
         padding: 20,
-        borderBottomColor: 'blue',
+        borderBottomColor: '#A4B9C6',
         borderBottomWidth: 1,
         fontSize: 25,
     },
