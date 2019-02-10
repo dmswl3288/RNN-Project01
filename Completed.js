@@ -1,9 +1,8 @@
 /* Completed.js 메인메뉴 선택 화면 */
 import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, 
-        View, TouchableOpacity, Image,
-        StatusBar, ScrollView, Platform,
-        Alert } from 'react-native';
+import { StyleSheet, Text, View,  
+        TouchableOpacity, Image,
+        StatusBar, ScrollView, Platform } from 'react-native';
 import Dimensions from 'Dimensions';
 import {Navigation} from 'react-native-navigation';
 
@@ -40,39 +39,55 @@ export default class Completed extends Component {
         return(
             <View style={styles.container}>
                 <StatusBar/>
-                <TouchableOpacity style={styles.Card1}
-                    onPress={() => {      // Log In
-                        Navigation.push(this.props.componentId, {
-                            component: {
-                              id: 'ToDoList',
-                              name: 'ToDoList',
-                            }     
-                        });
-                    }}>
-                  <Text style={{fontSize: 20, color: 'white', marginTop: 15,
-                                alignSelf: 'center'}}>Weekly</Text>
-                  <View style={styles.CardContent1}>
-                    <Image source={require('./android/app/src/main/assets/todolist.png')}
-                           style={styles.ToDoList}/>
-                  </View>
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={styles.Card2}
-                     onPress={() => {      // Log In
-                        Navigation.push(this.props.componentId, {
-                            component: {
-                              id: 'NotePW',
-                              name: 'NotePW',
-                            }     
-                        });
-                    }}>
-                  <Text style={{fontSize: 20, color: 'white', marginTop: 15,
-                                alignSelf: 'center'}}>Note my password</Text>
-                  <View style={styles.CardContent1}>
-                    <Image source={require('./android/app/src/main/assets/NotePW.png')}
-                           style={styles.ToDoList}/>
-                  </View>
-                </TouchableOpacity>
+                <ScrollView>
+                  <TouchableOpacity style={styles.Card1}
+                      onPress={() => {      // Log In
+                          Navigation.push(this.props.componentId, {
+                              component: {
+                                id: 'ToDoList',
+                                name: 'ToDoList',
+                              }     
+                          });
+                      }}>
+                    <Text style={{fontSize: 20, color: 'white', marginTop: 15,
+                                  alignSelf: 'center'}}>Weekly</Text>
+                    <View style={styles.CardContent1}>
+                      <Image source={require('./android/app/src/main/assets/todolist.png')}
+                              style={styles.ToDoList}/>
+                    </View>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity style={styles.Card2}
+                        onPress={() => {      // Log In
+                          Navigation.push(this.props.componentId, {
+                              component: {
+                                id: 'NotePW',
+                                name: 'NotePW',
+                              }     
+                          });
+                      }}>
+                    <Text style={{fontSize: 20, color: 'white', marginTop: 15,
+                                  alignSelf: 'center'}}>Note my password</Text>
+                    <View style={styles.CardContent1}>
+                      <Image source={require('./android/app/src/main/assets/NotePW.png')}
+                              style={styles.ToDoList}/>
+                    </View>
+                  </TouchableOpacity>
+
+                  <ScrollView
+                   horizontal={true} showsHorizontalScrollIndicator={false}>
+                   
+                      <Text style={{fontSize: 30, margin: 10}}>Child 1</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 2</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 3</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 4</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 5</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 6</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 7</Text>
+                      <Text style={{fontSize: 30, margin: 10}}>Child 8</Text>
+                  </ScrollView>
+
+                </ScrollView>
             </View>
         );
     }
@@ -120,6 +135,7 @@ const styles = StyleSheet.create({
     },
     Card2: {
         backgroundColor: '#780c00',
+        marginTop: 20,
         width: DEVICE_WIDTH-20,
         height: DEVICE_HEIGHT/2.5,
         marginBottom: 10,

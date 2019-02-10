@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import { StatusBar,
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  AsyncStorage,
-   } from 'react-native';
+        View,
+        StyleSheet,
+        Image,
+        } from 'react-native';
 import {goToAuth, goHome} from './Navigation';
-import {USER_KEY} from './config';
 import Dimensions from 'Dimensions';
 
 const DEVICE_WIDTH = Dimensions.get('window').width; 
