@@ -74,17 +74,36 @@ export default class Completed extends Component {
                     </View>
                   </TouchableOpacity>
 
+                  <Text style={styles.Today}>오늘의</Text>
+
                   <ScrollView
-                   horizontal={true} showsHorizontalScrollIndicator={false}>
-                   
-                      <Text style={{fontSize: 30, margin: 10}}>Child 1</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 2</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 3</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 4</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 5</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 6</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 7</Text>
-                      <Text style={{fontSize: 30, margin: 10}}>Child 8</Text>
+                   horizontal={true} showsHorizontalScrollIndicator={false}
+                   style={{ marginBottom: 10 }}>
+
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>날씨</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>음식</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>패션</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>뷰티</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>음악</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>영화</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>스포츠</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Weather}>
+                      <Text style={styles.WeatherFont}>여행</Text>
+                    </TouchableOpacity>
                   </ScrollView>
 
                 </ScrollView>
@@ -152,5 +171,23 @@ const styles = StyleSheet.create({
             },
         }),
     },
-    
+    Today: {
+      marginTop: 20,
+      marginLeft: 10,
+      fontSize: 23,
+      fontWeight: 'bold',
+      color: '#780c00',
+    },
+    Weather: {
+      borderColor: 'gray',
+      borderWidth: 0.5,
+      margin: 10,
+      borderRadius: 20
+    },
+    WeatherFont: {
+      color: 'black',
+      fontSize: 18,
+      paddingHorizontal: 10, 
+      paddingVertical: 5
+    },
 });
