@@ -108,7 +108,7 @@ export default class LogIn extends Component {
       isLoading: true
     });
 
-    fetch("http://61.102.48.100/login_user_info.php", {
+    fetch("http://61.102.48.46/login_user_info.php", {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

@@ -74,7 +74,11 @@ export default class Completed extends Component {
                     </View>
                   </TouchableOpacity>
 
-                  <Text style={styles.Today}>오늘의</Text>
+                  <View style={styles.TodayLayout}>
+                    <Image source={require('./android/app/src/main/assets/TodayIcon.png')}
+                            style={styles.TodayIcon}/>
+                    <Text style={styles.Today}>오늘의</Text>
+                  </View>
 
                   <ScrollView
                    horizontal={true} showsHorizontalScrollIndicator={false}
@@ -171,9 +175,19 @@ const styles = StyleSheet.create({
             },
         }),
     },
-    Today: {
+    TodayLayout: {
+      flex: 1,
+      flexDirection: 'row',
       marginTop: 20,
+      alignItems: 'baseline',
+    },    
+    TodayIcon: {
       marginLeft: 10,
+      width: 40,
+      height: 40,
+    },
+    Today: {
+      marginLeft: 5,
       fontSize: 23,
       fontWeight: 'bold',
       color: '#780c00',
